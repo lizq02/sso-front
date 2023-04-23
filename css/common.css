@@ -1,0 +1,111 @@
+/*窗口蒙层*/
+.tortoise-window-mc {
+    width: 100%;
+    background-color: rgba(74, 74, 74, 0.64);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+/*窗口div样式*/
+.tortoise-window-div {
+    background-color: #e6e4f0;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 0 15px #463367;
+    -moz-box-shadow: 4px 0 15px #463367;
+    box-shadow: 4px 0 15px #463367;
+    position: relative;
+    top: 50px;
+    left: 90px;
+}
+/*窗口title样式*/
+.tortoise-window-title {
+    height: 30px;
+    font-family: 黑体;
+    font-size: 19px;
+    padding-left: 6px;
+}
+/*窗口最大化按钮样式*/
+.tortoise-window-maximize {
+    background-image: url("/static/tortoise/images/maximize.png");
+    text-align: center;
+    height: 30px;
+    width: 50px;
+    font-size: 19px;
+    color: red;
+    cursor: pointer;
+    opacity: 0.4;
+    border-radius: 2px;
+}
+.tortoise-window-maximize:hover {
+    -webkit-box-shadow: 3px 0 3px #a29bad;
+    -moz-box-shadow: 3px 0 3px #a29bad;
+    box-shadow: 3px 0 3px #a29bad;
+}
+/*窗口关闭按钮样式*/
+.tortoise-window-close {
+    background-image: url("/static/tortoise/images/close.png");
+    margin-left: 6px;
+    text-align: center;
+    height: 30px;
+    width: 50px;
+    font-size: 28px;
+    color: red;
+    cursor: pointer;
+    opacity: 0.4;
+    border-radius: 2px;
+    margin-right: 3px;
+    border-radius: 2px;
+}
+.tortoise-window-close:hover {
+    background-image: url("/static/tortoise/images/close_hover.png");
+    -webkit-box-shadow: 3px 0 3px #a29bad;
+    -moz-box-shadow: 3px 0 3px #a29bad;
+    box-shadow: 3px 0 3px #a29bad;
+}
+.position-relative {
+    position:relative;
+}
+/*下拉树元素样式*/
+.select-div {
+    max-height: 250px;
+    z-index: 999;
+    overflow: auto;
+    background-color: white;
+    width: 100%;
+    position:absolute;
+    top: 34px;
+    left: 0px;
+    border: 1px solid #4fe9ff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 3px 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.select-option-div {
+    cursor: pointer;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.select-option-div:hover {
+    background-color: #fff8f9;
+}
+/*下拉树元素样式*/
+
+
+/*loading 样式*/
+.loading {
+    z-index: 9999;
+    background-color: rgba(174, 222, 255, 0.2);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+/*表格分页*/
+.layui-table-page {
+    text-align: right;
+}

@@ -1,2 +1,0 @@
-# sso-front
-sso-front
