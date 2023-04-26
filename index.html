@@ -40,7 +40,12 @@
           </ul>
         </div>
         <div class="layui-col-xs8 layui-col-sm9 layui-col-md10">
-          <table id="role" lay-filter="test"></table>
+          
+          <script type="text/html" id="toolbar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          </script>
+          <table id="role" lay-filter="role"></table>
         </div>
       </div>
     </div>
@@ -48,51 +53,79 @@
 </body>
 
 <script>
-layui.use(['element', 'table'], function(){
-  var element = layui.element;
-  var table = layui.table;
-  
-  // 页面初始化
-  init();
+  var tableIns = null;
 
-  // 表格初始化 ------------------
-  function init(){
-    $.ajax({               
-                        type: "POST",//请求的方式
-                        url: "http://121.89.247.247:9999/sysRole/page",//请求的接口
-                        // data: postData,//参数（可传可不传递）
-                        dataType: "json",//数据类型
-                        async:false,
-                        success: function (res) {    
-                            console.log(data);
-                        },
-                        error:function(err){
-                        //失败之后执行（我不管，失败别找我i）
-                            obj=err;
-                            alert("数据不存在") 
-                        }                
-                    })            
-  }
+  $(document).ready(function () {
+    layui.use(['element', 'table'], function(){
+      var element = layui.element;
+      var table = layui.table;
+    
+      tableIns = table.render({
+        id: "role"
+        ,elem: '#role'
+        ,height: "1000"
+        ,url: 'http://121.89.247.247:9999/sysRole/page' //数据接口
+        ,page: true //开启分页
+        ,limit: 10
+        ,loading: true
+        ,cols: [[ //表头
+          {field: 'id', title: 'ID', width:80, fixed: 'center'}
+          ,{field: 'roleCode', title: '角色编码', width:150, fixed: 'center'}
+          ,{field: 'roleName', title: '角色名称', width:150}
+          ,{field: 'updateUserName', title: '修改人名称', width:150} 
+          ,{field: 'updateTime', title: '修改时间', width:250} 
+          ,{field: 'remake', title: '备注'} 
+          ,{field: 'options', title: '操作', toolbar: '#toolbar', align: 'center', width: 250}
+        ]],parseData: function(res){ //res 即为原始返回的数据
+            return {
+              "code": res.code == 200 ? 0 : res.code, //解析接口状态
+              "count": res.count, //解析数据长度
+              "data": res.data //解析数据列表
+            };
+          }
+      });
 
-  //第一个实例
-  table.render({
-    elem: '#role'
-    ,height: "80%"
-    ,url: 'http://121.89.247.247:9999/sysRole/page' //数据接口
-    ,page: true //开启分页
-    ,limit: 10
-    ,cols: [[ //表头
-      {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-      ,{field: 'username', title: '用户名', width:80}
-      ,{field: 'sex', title: '性别', width:80, sort: true}
-      ,{field: 'city', title: '城市', width:80} 
-      ,{field: 'sign', title: '签名', width: 177}
-      ,{field: 'experience', title: '积分', width: 80, sort: true}
-      ,{field: 'score', title: '评分', width: 80, sort: true}
-      ,{field: 'classify', title: '职业', width: 80}
-      ,{field: 'wealth', title: '财富', width: 135, sort: true}
-    ]]
+      //监听行工具事件
+      table.on('tool(role)', function (obj) {
+          var data = obj.data;
+          var id = data.id || "";
+          if (obj.event === 'del') {
+              layer.confirm('是否确认删除?', function (index) {
+                  Base.submitPost("", "/sysRole/delete", {id: id}, null, function (data) {
+                      fnQuery();
+                      layer.close(index);
+                  });
+              });
+          } else if (obj.event === 'edit') {
+              layer.open({
+                  type: 2,
+                  title: false,
+                  closeBtn: 0,
+                  content: '/billPage/updateElectricityBill.html?id=' + id,
+                  area: ['500px', '500px'],
+                  zIndex: layer.zIndex,
+                  cancel: function (index, layero) {
+                      layer.close(index);
+                      // 查询
+                      fnQuery();
+                  },
+              });
+          }
+      });
   });
+  
+  // 查询
+  function fnQuery() {
+      tableIns.reload({
+          where: { // 设定异步数据接口的额外参数
+              // roomId: $("#roomId").val()
+          },
+          page: {
+              curr: 1 // 重新从第 1 页开始
+          }
+      });
+  }
 });
+
 </script> 
 </html>
