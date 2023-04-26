@@ -91,7 +91,7 @@
           var id = data.id || "";
           if (obj.event === 'del') {
               layer.confirm('是否确认删除?', function (index) {
-                  Base.submitPost("", "/sysRole/delete", {id: id}, null, function (data) {
+                  Base.submitPost("", "http://121.89.247.247:9999/sysRole/delete", {id: id}, null, function (data) {
                       fnQuery();
                       layer.close(index);
                   });
@@ -117,9 +117,6 @@
   // 查询
   function fnQuery() {
       tableIns.reload({
-          where: { // 设定异步数据接口的额外参数
-              // roomId: $("#roomId").val()
-          },
           page: {
               curr: 1 // 重新从第 1 页开始
           }
