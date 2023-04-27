@@ -117,7 +117,8 @@ Base.submit = function (submitIds, url, parameter, onSubmit, successCallback, fa
     }
     jQuery.ajax({
         url: settings.url,
-        data: data,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
         dataType: "json",
         type: settings.type,
         async: settings.async,
@@ -128,7 +129,7 @@ Base.submit = function (submitIds, url, parameter, onSubmit, successCallback, fa
         success: function (data, textStatus, XMLHttpRequest) {
             // data 可能是 xmlDoc, jsonObj, html, text, 等等...
             settings.successCallback(data, XMLHttpRequest);
-            if (Base.isNotNull(data.code) && data.code != '0') {
+            if (Base.isNotNull(data.code) && data.code != '200') {
                 Base.alert(data.msg, "error", null);
             }
             Base.hideMask(loadingId);

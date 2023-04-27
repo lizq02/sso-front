@@ -35,17 +35,49 @@
         </div>
         <div class="layui-col-xs4 layui-col-sm3 layui-col-md2" style="height: 93%;">
           <ul class="layui-nav layui-nav-tree" lay-filter="" style="height: 100%;width: auto;">
-            <li class="layui-nav-item layui-this"><a href="">用户管理</a></li>
+            <li class="layui-nav-item layui-this"><a href="index.html">用户管理</a></li>
             <li class="layui-nav-item"><a href="">角色管理</a></li>
           </ul>
         </div>
         <div class="layui-col-xs8 layui-col-sm9 layui-col-md10">
-          
-          <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-          </script>
-          <table id="role" lay-filter="role"></table>
+          <div class="layui-card">
+            <div class="layui-card-header">
+              <form autocomplete="off" class="layui-form" style="margin-top: 20px;margin-left: 20px;">
+                <div class="layui-form-item layui-row">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 68px;padding: 9px 5px;">角色编码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="roleCode" name="roleCode" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 68px;padding: 9px 5px;">角色名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="roleName" name="roleName" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width: 50px;">
+                        <div class="layui-input-inline">
+                            <input type="button" class="layui-btn layui-btn-sm" onclick="fnQuery()" style="margin-top: -5px;" value="查询">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                          <button type="button" class="layui-btn layui-btn-sm" onclick="fnOpenWindow()" style="margin-top: -5px;">新增
+                          </button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+            <div class="layui-card-body">
+                <script type="text/html" id="toolbar">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+                <table id="role" lay-filter="role"></table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,9 +85,9 @@
 </body>
 
 <script>
-  var tableIns = null;
+var tableIns = null;
 
-  $(document).ready(function () {
+$(document).ready(function () {
     layui.use(['element', 'table'], function(){
       var element = layui.element;
       var table = layui.table;
@@ -113,16 +145,37 @@
           }
       });
   });
-  
+});
+
   // 查询
   function fnQuery() {
       tableIns.reload({
+          where: { // 设定异步数据接口的额外参数
+            roleCode: $("#roleCode").val(),
+            roleName: $("#roleName").val()
+          },
           page: {
               curr: 1 // 重新从第 1 页开始
           }
       });
   }
-});
 
+  // 打开新增接口
+  function fnOpenWindow() {
+      layer.open({
+          type: 2,
+          title: "新增",
+          closeBtn: 1,
+          shadeClose: true,
+          content: 'pages/roleInsert.html',
+          area: ['480px', '350px'],
+          zIndex: layer.zIndex,
+          cancel: function (index, layero) {
+              layer.close(index);
+              // 查询
+              fnQuery();
+          }
+      });
+  }
 </script> 
 </html>
