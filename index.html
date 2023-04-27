@@ -123,7 +123,7 @@ $(document).ready(function () {
           var id = data.id || "";
           if (obj.event === 'del') {
               layer.confirm('是否确认删除?', function (index) {
-                  Base.submitPost("", "http://121.89.247.247:9999/sysRole/delete", {id: id}, null, function (data) {
+                  Base.submitPost("", "http://121.89.247.247:9999/sysRole/delete?id=" + id, null, null, function (data) {
                       fnQuery();
                       layer.close(index);
                   });
